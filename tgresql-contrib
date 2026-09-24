@@ -1,0 +1,51 @@
+                                                Tabela "public.documentos"
+         Coluna         |            Tipo             | Ordenação | Pode ser nulo |                 Padrão                 
+------------------------+-----------------------------+-----------+---------------+----------------------------------------
+ id                     | bigint                      |           | not null      | nextval('documentos_id_seq'::regclass)
+ uri_legado             | bigint                      |           |               | 
+ record_id              | character varying(255)      |           | not null      | 
+ titulo                 | text                        |           | not null      | 
+ titulo_legado_numerico | boolean                     |           | not null      | false
+ arquivo_id             | bigint                      |           |               | 
+ tipo_documento_texto   | text                        |           |               | 
+ tipo_documento_id      | smallint                    |           |               | 
+ local_arquivo_id       | smallint                    |           |               | 
+ setor_origem_id        | smallint                    |           |               | 
+ setor_responsavel_id   | smallint                    |           |               | 
+ consignado             | text                        |           |               | 
+ nip_matricula          | text                        |           |               | 
+ origem                 | text                        |           |               | 
+ numero_documento       | text                        |           |               | 
+ beneficiario           | text                        |           |               | 
+ protocolo              | text                        |           |               | 
+ cpf                    | character(11)               |           |               | 
+ entidade_consignataria | text                        |           |               | 
+ oficio_judicial_anexo  | text                        |           |               | 
+ urgente                | boolean                     |           | not null      | false
+ observacoes            | text                        |           |               | 
+ data_protocolo         | date                        |           |               | 
+ data_criacao_legado    | date                        |           |               | 
+ data_protocolo_legado  | date                        |           |               | 
+ criado_em              | timestamp(0) with time zone |           |               | 
+ registrado_em          | timestamp(0) with time zone |           |               | 
+ data_origem_invalida   | boolean                     |           | not null      | false
+ criado_por             | bigint                      |           |               | 
+ atualizado_em          | timestamp(0) with time zone |           |               | 
+Índices:
+    "documentos_pkey" PRIMARY KEY, btree (id)
+    "documentos_uri_legado_unique" UNIQUE CONSTRAINT, btree (uri_legado)
+    "idx_doc_busca" gin (to_tsvector('portuguese'::regconfig, (((COALESCE(titulo, ''::text) || ' '::text) || COALESCE(beneficiario, ''::text)) || ' '::text) || COALESCE(observacoes, ''::text)))
+    "idx_doc_cpf" btree (cpf)
+    "idx_doc_criado" btree (criado_em)
+    "idx_doc_nip" btree (nip_matricula)
+    "idx_doc_numero" btree (numero_documento)
+    "idx_doc_protocolo" btree (protocolo)
+    "idx_doc_tipo" btree (tipo_documento_id)
+Restrições de chave estrangeira:
+    "documentos_arquivo_id_foreign" FOREIGN KEY (arquivo_id) REFERENCES arquivos(id) ON DELETE SET NULL
+    "documentos_criado_por_foreign" FOREIGN KEY (criado_por) REFERENCES users(id) ON DELETE SET NULL
+    "documentos_local_arquivo_id_foreign" FOREIGN KEY (local_arquivo_id) REFERENCES locais_arquivo(id) ON DELETE SET NULL
+    "documentos_setor_origem_id_foreign" FOREIGN KEY (setor_origem_id) REFERENCES setores(id) ON DELETE SET NULL
+    "documentos_setor_responsavel_id_foreign" FOREIGN KEY (setor_responsavel_id) REFERENCES setores(id) ON DELETE SET NULL
+    "documentos_tipo_documento_id_foreign" FOREIGN KEY (tipo_documento_id) REFERENCES tipos_documento(id) ON DELETE SET NULL
+
