@@ -87,4 +87,21 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf(CarbonInterface::class, $user->bloqueado_em);
     }
+
+    /**
+     * Teste de regressão para a decisão de mass assignment: `perfil`,
+     * `senha_temporaria`, `bloqueado_em` e `tentativas_login` representam
+     * estado de autorização/autenticação e nunca podem voltar ao Fillable
+     * por acidente. `nip` é o único campo legado que é fillable.
+     */
+    public function test_only_nip_is_fillable_among_the_legacy_fields(): void
+    {
+        $user = new User;
+
+        $this->assertTrue($user->isFillable('nip'));
+        $this->assertFalse($user->isFillable('perfil'));
+        $this->assertFalse($user->isFillable('senha_temporaria'));
+        $this->assertFalse($user->isFillable('bloqueado_em'));
+        $this->assertFalse($user->isFillable('tentativas_login'));
+    }
 }
