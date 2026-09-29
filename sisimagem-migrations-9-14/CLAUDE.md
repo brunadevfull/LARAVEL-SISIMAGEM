@@ -44,7 +44,10 @@ Sem API separada, sem SPA, sem Docker no desenvolvimento.
 - Migration já aplicada não se edita. Correção de estrutura vai em migration
   nova.
 - Não rode `php artisan migrate` sem autorização.
-- Estado alvo: migrations 1 a 15.
+- Estado alvo: migrations 1 a 15, mais a da tarefa de login.
+- A migration 11 cria `cpf` mas mantém `email`: o login atual ainda usa
+  e-mail. A remoção de `email` e `email_verified_at` vem em migration própria
+  na tarefa de login, junto com a troca do código.
 
 ## Login e conta
 
