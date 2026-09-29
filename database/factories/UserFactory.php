@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Setor;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -34,6 +35,10 @@ class UserFactory extends Factory
             // uma afirmação sobre o formato real do NIP (ainda não
             // confirmado), só precisa ser único.
             'nip' => fake()->unique()->numerify('########'),
+            // Perfil de menor privilégio. O banco exige setor para quem não
+            // é admin, e o padrao só no PAPEM-41.
+            'perfil' => 'padrao',
+            'setor_id' => Setor::PAPEM_41,
         ];
     }
 

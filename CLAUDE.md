@@ -18,8 +18,9 @@ as tabelas do produto TRIM, hoje desativado.
 | Entidades e ligações | `docs/sisimagem-mer.md`, `docs/sisimagem-diagrama-er.md` |
 | Stack, segurança, ETL | `docs/sisimagem-plano-tecnico.md` |
 
-Os arquivos em `docs/docs/`, `docs/files/` e na pasta `migrations/` da raiz são
-cópias antigas. Não use.
+`docs/legado/` (engenharia reversa do sistema atual) e `docs/levantamento/`
+(roteiros e queries de levantamento) são histórico: servem de evidência, não
+de regra. Se divergirem da tabela acima, vale a tabela.
 
 ## Stack
 
@@ -44,7 +45,11 @@ Sem API separada, sem SPA, sem Docker no desenvolvimento.
 - Migration já aplicada não se edita. Correção de estrutura vai em migration
   nova.
 - Não rode `php artisan migrate` sem autorização.
-- Estado alvo: migrations 1 a 15.
+- Estado alvo: migrations 1 a 15, mais a da tarefa de login.
+- A migration 11 cria `cpf` mas mantém `email`. O login já é por NIP; falta
+  aceitar CPF (`LoginIdentifier`) e remover o e-mail, na tarefa de login. A
+  remoção de `email` e `email_verified_at` vem em migration própria nessa
+  tarefa, junto com a troca do código.
 
 ## Login e conta
 

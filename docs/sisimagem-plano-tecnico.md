@@ -5,7 +5,7 @@ construção e ETL. O schema não é repetido aqui: a fonte única é
 `sisimagem-ddl.sql`, explicada em `sisimagem-dicionario-dados.md`,
 `sisimagem-mer.md` e `sisimagem-diagrama-er.md`.
 
-Estado: banco modelado (migrations 1 a 15; 1 a 8 aplicadas), Breeze
+Estado: banco modelado (migrations 1 a 15; 1 a 8 aplicadas; e-mail sai na tarefa de login), Breeze
 instalado, decisões de perfil, setor, login e arquivo fechadas.
 
 ---
