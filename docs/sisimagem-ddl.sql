@@ -33,6 +33,8 @@ CREATE TABLE locais_arquivo (
 
 -- ------------------------------------------------------------
 -- users: sem e-mail; login por NIP ou CPF
+-- email e email_verified_at ainda existem no banco ate a tarefa de login,
+-- que os remove em migration propria (16 ou seguinte).
 -- ------------------------------------------------------------
 CREATE TABLE users (
     id                BIGSERIAL PRIMARY KEY,

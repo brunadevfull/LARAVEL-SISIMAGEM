@@ -18,7 +18,7 @@ return new class extends Migration
 
         // documentos: oficio judicial anexo vira sim/nao. O legado gravava "SIM" ou vazio.
         DB::statement("ALTER TABLE documentos ALTER COLUMN oficio_judicial_anexo
-            TYPE boolean USING (COALESCE(oficio_judicial_anexo, '') = 'SIM')");
+            TYPE boolean USING (UPPER(TRIM(COALESCE(oficio_judicial_anexo, ''))) = 'SIM')");
         DB::statement('ALTER TABLE documentos ALTER COLUMN oficio_judicial_anexo SET DEFAULT false');
         DB::statement('ALTER TABLE documentos ALTER COLUMN oficio_judicial_anexo SET NOT NULL');
     }
