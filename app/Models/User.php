@@ -7,10 +7,11 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'nip'])]
+#[Fillable(['name', 'email', 'password', 'nip', 'cpf'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -20,9 +21,9 @@ class User extends Authenticatable
     /**
      * Get the attributes that should be cast.
      *
-     * `perfil`, `senha_temporaria`, `bloqueado_em` e `tentativas_login`
-     * representam estado de autorização/autenticação e ficam fora do
-     * Fillable de propósito — nunca devem ser atribuídos por
+     * `perfil`, `setor_id`, `senha_temporaria`, `bloqueado_em` e
+     * `tentativas_login` representam estado de autorização/autenticação e
+     * ficam fora do Fillable de propósito — nunca devem ser atribuídos por
      * mass assignment (`$request->all()`, `fill()`, `create()` com
      * entrada bruta da requisição), só de forma explícita pelo código
      * responsável (ex.: tela de administração de usuários).
@@ -42,21 +43,29 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->perfil === 'adm';
+        return $this->perfil === 'admin';
     }
 
-    public function isPapem40(): bool
+    public function isGestorSetor(): bool
     {
-        return $this->perfil === 'papem40';
+        return $this->perfil === 'gestor_setor';
     }
 
-    public function isSasm(): bool
+    public function isOperadorSetor(): bool
     {
-        return $this->perfil === 'sasm';
+        return $this->perfil === 'operador_setor';
     }
 
     public function isPadrao(): bool
     {
         return $this->perfil === 'padrao';
+    }
+
+    /**
+     * @return BelongsTo<Setor, $this>
+     */
+    public function setor(): BelongsTo
+    {
+        return $this->belongsTo(Setor::class);
     }
 }
